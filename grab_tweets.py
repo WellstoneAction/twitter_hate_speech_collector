@@ -1,4 +1,5 @@
 import requests
+import pprint
 import datetime
 import csv
 from datetime import timedelta
@@ -19,29 +20,32 @@ api = tweepy.API(auth)
 help = "Dumps tweets to csv (with digital fingerprint) for user accounts experiencing harassment"
 
 
-screen_name = raw_input("\nPlease enter the Twitter handle experiencing harassment, including @: ")
+screenname = raw_input("\nPlease enter the Twitter handle experiencing harassment, including '@': ").strip()
 
-start_date = raw_input("What date do you want to start from? (mm/dd/yyyy): ")
-end_date = raw_input("What date do you want to end on? (mm/dd/yyyy): ")
+start_date = raw_input("What date do you want to start from? (yyyy-mm-dd): ").strip()
+end_date = raw_input("What date do you want to end on? (yyyy-mm-dd): ").strip()
 
 alltweets = []
 
-print "\n\nOk, you want to capture mentions of {} from {} to {}.\n\n...\n\nGrabbing tweets now...\n".format(screen_name, start_date, end_date)
+print "\n\nOk, you want to capture mentions of {} from {} to {}.\n\n...\n\nGrabbing tweets now...\n".format(screenname, start_date, end_date)
 
-'''
-try:
-    #make initial request for most recent tweets (200 is the maximum allowed count)
-    new_tweets = api.search(q = screen_name, count=1)
-    
-    #save most recent tweets
-    alltweets.extend(new_tweets)
-    
-    #save the id of the oldest tweet less one
-            
+with open('twitter_results.csv', 'wb') as csv_file:
+    writer = csv.writer(csv_file, delimiter = ",", quotechar = '"')
+    writer.writerow(["Tweet ID", "Part of the original thread?", "Sent when", "Sent by whom", "Data source", "In reply to what tweet", "text"])
+    try:
+        new_tweets = api.search(q = screenname, since="2016-11-29")
+        print len(new_tweets)
+        for t in new_tweets:
+            ttext = t.text.encode('UTF-8')
+            tauthor = t.author.name.encode('UTF-8')
+            if tweet.in_reply_to_status_id == 809166899334488064:
+                flag = "Yes"
+            else:
+                flag = ""
+            writer.writerow([t.id, flag, t.created_at, tauthor, t._api, t.in_reply_to_status_id, ttext])
+        print t
+    except tweepy.TweepError as e:
+        print e
 
-    print alltweets
-    print "...%s tweets downloaded" % (len(alltweets))
-    
-except tweepy.TweepError, e:
-    print e
-'''
+
+# the bad thread is: in_reply_to_status_id=809166899334488064
