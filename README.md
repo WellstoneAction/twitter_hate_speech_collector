@@ -6,7 +6,7 @@ This script suite grabs mentions of a Twitter user after a specific tweet and du
 It was created in response to an uptick in Twitter-based harassment of organizers by white supremacist and neo-Nazi organizations, and specifically in response to a Nov-Dec 2016 influx of hate tweets against two organizers in Minneapolis (see originating target tweet in the last comment of ```grab_last_week_of_tweets.py```).
 
 The data produced is intended to:
-+ Maintain copies of tweets that may be deleted later
++ Maintain copies of tweets that may be deleted later as Twitter maintains policies that limit their own ability to reproduce deleted tweets
 + Back up or replace screenshots with more forensically sound data (i.e. "real evidence" vs direct evidence"), because IDs and timestamps are taken directly from Twitter's own database. Ideally this helps to protect targeted organizers from accusations of fabricated evidence.
 + Protect targeted organizers from having to repeatedly view triggering photos or disrupt the work day to take screenshots.
 + Produce a spreadsheet that makes it easier to search for text key phrases/words and/or do statistical analysis on it.
