@@ -6,7 +6,7 @@ import csv
 
 parsed = html.parse('results.html')
 
-tweets = parsed.xpath("//div[contains(@class, 'js-original-tweet')]")
+tweets = parsed.xpath("//div[contains(@class, 'original-tweet')]")
 
 #/div[contains(@class, 'js-tweet-text-container')]//text()")
 
@@ -19,6 +19,11 @@ with open('parse_results.csv', 'wb') as csv_file:
         screen_name = t.get("data-screen-name").encode('UTF-8')
         name = t.get("data-name").encode('UTF-8')
         data_source = "Twitter advanced search url:'https://twitter.com/search?q=to%3Awintanamn%20since%3A2016-11-29%20until%3A2016-12-06&src=typd&lang=en' "
-        print tweet_id, screen_name, name
-        writer.writerow([tweet_id, " ", "No date", screen_name, name, "text", "In reply to status_id", data_source])
+        when = t.xpath("div[@class='content']/div[@class='stream-item-header']/small/a")[0].get("title").encode('UTF-8')
+        ttext = t.xpath("div/div/p")
+        full_text = ""
+        for x in ttext:
+            full_text += x.text_content().encode('UTF-8')
+            print full_text
+        writer.writerow([tweet_id, " ", when, screen_name, name, full_text, "In reply to status_id", data_source])
 print len(tweets)
