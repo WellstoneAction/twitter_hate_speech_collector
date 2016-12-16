@@ -1,5 +1,6 @@
 venv
 *.pyc
 *.csv
+*.xlsx
 keys.py
 *.html
